@@ -3,10 +3,15 @@ from django.db import models
 # Create your models here.
 
 class Pony(models.Model):
+
+    STATUS_INIT = 0
+    STATUS_MISSING = 1
+    STATUS_NORMAL = 2
+
     name = models.CharField(max_length=255, db_index= True)
     passcode = models.CharField(max_length=255)
     dark_minute = models.IntegerField()
-    last_hi_time = models.DateTimeField()
+    last_hi_time = models.DateTimeField(null=True)
     status = models.IntegerField(default=0, db_index= True)
     notify_channel = models.CharField(max_length=10)
     notify_url = models.CharField(max_length=255)
