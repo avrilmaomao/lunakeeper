@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import logging
+import os
 
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -124,3 +127,21 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version' : 1,
+    'disable_existing_loggers' : False,
+}
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s %(module)s %(process)d %(threadName)s %(thread)d %(message)s')
+
+# settings needed to be overridden in dev or local
+EMAIL_HOST = '127.0.0.1'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = 'luna@equestria'
+
+
+if os.environ.get('DJANGO_DEVELOPMENT'):
+    from settings_dev import *  # or specific overrides

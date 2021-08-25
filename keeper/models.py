@@ -2,11 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+
 class Pony(models.Model):
 
     STATUS_INIT = 0
-    STATUS_MISSING = 1
-    STATUS_NORMAL = 2
+    STATUS_NORMAL = 1
+    STATUS_MISSING = 2
 
     name = models.CharField(max_length=255, db_index= True)
     passcode = models.CharField(max_length=255)
