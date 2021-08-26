@@ -49,7 +49,7 @@ def add_pony(request: HttpRequest):
                          msg="check your notification channel whether you've received a creation message")
 
 
-def hello_pony(request):
+def hi_pony(request):
     pony = check_pony_or_response(request)
     if type(pony) != Pony:
         return pony

@@ -34,7 +34,7 @@
               <p><strong>Create A Pony</strong></p>
               <p>To Luna, each device or app is called a pony.You can add a pony through an HTTP request.</p>
               <p class="mb-0">URL</p>
-              <p><code>https://{{ domain }}/luna/pony/add</code></p>
+              <p><code>https://{{ domain }}{% url 'add_pony' %}</code></p>
               <p class="mb-0">Params</p>
               <table class="table">
                   <thead class="thead-light">
@@ -68,26 +68,26 @@
                   </tbody>
               </table>
           </li>
-          <li><p><strong>Sending Hello to Luna</strong></p>
+          <li><p><strong>Say Hi to Luna</strong></p>
             <p>After your pony was created, it needs to send message to Luna periodically.So Luna knows if a pony is going well or has some trouble.</p>
               <p class="mb-0">URL</p>
-              <p><code>https://{{ domain }}/luna/pony/hello</code></p>
+              <p><code>https://{{ domain }}{% url 'hi_pony' %}</code></p>
               <p class="mb-0">Params</p>
               <ul>
                   <li>name: Your pony's name</li>
                   <li>passcode: Your pony's passcode</li>
               </ul>
               <p></p>
-              <p>Be advised, the interval of your pony's hello requests needs to be smaller than the <span class="font-weight-bold">dark_minute</span> param of the pony.</p>
+              <p>Be advised, the interval of your pony's Hi requests needs to be smaller than the <span class="font-weight-bold">dark_minute</span> param of the pony.</p>
               <p>Some Examples:</p>
               <ul>
                   <li>If you can control the code, just send the HTTP request at a fixed interval</li>
                   <li>If you are running a script, add the request command after the execution of your script.
-                  <p><code>yourcommand && curl 'https://{{ domain }}/luna/pony/hello?name=*****&passcode=*****'</code></p>
+                  <p><code>yourcommand && curl 'https://{{ domain }}{% url 'hi_pony' %}?name=*****&passcode=*****'</code></p>
                   </li>
                   <li>
                       If you just want to check whether your device is online, add the request command to your crontab or something similar.
-                      <p><code>*/30 * * * * curl 'https://{{ domain }}/luna/pony/hello?name=*****&passcode=*****'</code></p>
+                      <p><code>*/30 * * * * curl 'https://{{ domain }}{% url 'hi_pony' %}?name=*****&passcode=*****'</code></p>
                   </li>
               </ul>
           </li>
@@ -96,7 +96,7 @@
                   <strong>Change Your Pony</strong>
               </p>
               <p class="mb-0">URL</p>
-              <p><code>https://{{ domain }}/luna/pony/change</code></p>
+              <p><code>https://{{ domain }}{% url 'change_pony' %}</code></p>
               <p class="mb-0">Params</p>
               <p>Params are the same as the create request,but you cannot change your pony's name and passcode.</p>
           </li>
@@ -106,7 +106,7 @@
                   <strong>Get Your Pony's Info</strong>
               </p>
               <p class="mb-0">URL</p>
-              <p><code>https://{{ domain }}/luna/pony/get</code></p>
+              <p><code>https://{{ domain }}{% url 'get_pony' %}</code></p>
               <p class="mb-0">Params</p>
               <ul>
                   <li>name: Your pony's name</li>
@@ -118,9 +118,9 @@
               <p>
                   <strong>Remove Your Pony</strong>
               </p>
-              <p>Most of the times, you don't need to explicitly remove your pony. If your pony stops sending hello for some time, Luna will remove ponies who stay missing for more than a month.But in case you want to do this by yourself, you can use the request below</p>
+              <p>Most of the times, you don't need to explicitly remove your pony. If your pony stops saying hi for some time, Luna will remove ponies who stay missing for more than a month.But in case you want to do this by yourself, you can use the request below</p>
               <p class="mb-0">URL</p>
-              <p><code>https://{{ domain }}/luna/pony/bye</code></p>
+              <p><code>https://{{ domain }}{% url 'remove_pony' %}</code></p>
               <p class="mb-0">Params</p>
               <ul>
                   <li>name: Your pony's name</li>
