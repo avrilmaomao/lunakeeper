@@ -90,7 +90,7 @@ class ClientTest (TestCase):
     def test_index_page(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'luna')
+        self.assertContains(response, 'Luna')
 
     def test_add_pony(self):
         pony_name = 'dali'
