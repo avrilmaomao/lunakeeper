@@ -26,4 +26,3 @@ def run_in_background(func , *args, **kwargs) -> concurrent.futures.Future:
 
 
 run_in_background.executor = ThreadPoolExecutor(max_workers=3)
-logging.info("utils imported")

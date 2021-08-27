@@ -1,3 +1,5 @@
 .idea/
 db.sqlite3
 venv/
+luna/settings_dev.py
+luna/settings_prod.py

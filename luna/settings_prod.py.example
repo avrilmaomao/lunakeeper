@@ -1,0 +1,15 @@
+# change this after deploy
+SECRET_KEY = '7ieb5bsd(7#8$6(fljy1=-5e!sd(7ieb5bsn7+yzev6w8p-u=a&ddd5=6'
+
+ALLOWED_HOSTS = [
+    '*'
+]
+
+SECURE_HSTS_SECONDS = 86400
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SECURE_SSL_REDIRECT = True
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

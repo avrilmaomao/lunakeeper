@@ -19,15 +19,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d(7#8$6(fljy1=-5e!sd(7ieb5bsn7+yzev6w8p-u=a&ddd5=6'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -134,14 +125,26 @@ LOGGING = {
 }
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s %(module)s %(process)d %(threadName)s %(thread)d %(message)s')
 
-# settings needed to be overridden in dev or local
+# settings needed to be overridden in dev or prod
 EMAIL_HOST = '127.0.0.1'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = False
-DEFAULT_FROM_EMAIL = 'luna@equestria'
+DEFAULT_FROM_EMAIL = 'luna@equestria.org'
 
 
 if os.environ.get('DJANGO_DEVELOPMENT'):
-    from settings_dev import *  # or specific overrides
+    # Quick-start development settings - unsuitable for production
+    # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = 'django-insecure-d(7#8$6(fljy1=-5e!sd(7ieb5bsn7+yzev6w8p-u=a&ddd5=6'
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+
+    from .settings_dev import *
+else:
+    DEBUG = False
+
+    from .settings_prod import *
