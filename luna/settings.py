@@ -143,7 +143,10 @@ if not os.environ.get('DJANGO_PRODUCTION'):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
 
-    from .settings_dev import *
+    try:
+        from .settings_dev import *
+    except ModuleNotFoundError:
+        print("no dev setting exists")
 else:
     DEBUG = False
 
