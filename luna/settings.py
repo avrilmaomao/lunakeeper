@@ -133,6 +133,7 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'luna@equestria.org'
 
+STATIC_ROOT = str((BASE_DIR / 'static').absolute() )
 
 if not os.environ.get('DJANGO_PRODUCTION'):
     # Quick-start development settings - unsuitable for production
