@@ -9,3 +9,7 @@ script:
   - python ./manage.py migrate
   - python ./manage.py test keeper.tests
 
+notifications:
+  email:
+    on_success: always # default: change
+    on_failure: always # default: always
