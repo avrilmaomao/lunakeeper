@@ -134,7 +134,7 @@ EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'luna@equestria.org'
 
 
-if os.environ.get('DJANGO_DEVELOPMENT'):
+if not os.environ.get('DJANGO_PRODUCTION'):
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
