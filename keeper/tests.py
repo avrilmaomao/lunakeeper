@@ -1,6 +1,7 @@
 import datetime
 import typing
 from io import StringIO
+from unittest.mock import patch, MagicMock
 
 from django.test import TestCase,Client
 from django.urls import reverse
@@ -12,7 +13,7 @@ from .services import notification
 from .models import Pony,History
 from .consts import NOTIFY_CHANNEL_EMAIL,NOTIFY_CHANNEL_SLACK
 from .views import check_and_get_pony
-from .utils import hash_password
+from .utils import hash_password,send_json_request
 
 
 # Create your tests here.
@@ -69,6 +70,19 @@ class KeeperTest (TestCase):
         ret = notification.send_by_channel('Hello, Title', 'This is a test notification', 'unknown', 'unknown url')
         self.assertFalse(ret)
 
+    @patch(__package__ + '.services.notification.send_json_request')
+    def test_send_slack(self, send_json_request_mock : MagicMock):
+        title = 'title'
+        content = 'content'
+        url = 'https://slackhook'
+        send_json_request_mock.side_effect = ["ok", "failed"]
+        ret = notification.send_slack_notification(title, content, url)
+        send_json_request_mock.assert_called()
+        send_json_request_mock.assert_called_with(url, {'text': title + '\n' + content}, False)
+        self.assertTrue(ret)
+        ret = notification.send_slack_notification(title, content, url)
+        self.assertFalse(ret)
+
     def test_check_and_get_pony(self):
         pony = check_and_get_pony(NEW_TESTING_PONY_NAME, TESTING_PONY_PASSCODE)
         self.assertIsNotNone(pony)
@@ -76,6 +90,16 @@ class KeeperTest (TestCase):
         self.assertIsNone(pony)
         pony = check_and_get_pony('wrong name', TESTING_PONY_PASSCODE)
         self.assertIsNone(pony)
+
+    @patch(__package__ +'.utils.urllib.request.urlopen')
+    def test_send_http_json_request(self, urlopen_mock: MagicMock):
+        url = 'https://jsonurl'
+        param_dict = {'k': 'v'}
+        ret = send_json_request(url, param_dict, True)
+        call_args = urlopen_mock.call_args
+        self.assertEqual(url, call_args[0])
+
+        
 
 
 class ClientTest (TestCase):
