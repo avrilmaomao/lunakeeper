@@ -2,6 +2,7 @@ import datetime
 import typing
 from io import StringIO
 from unittest.mock import patch, MagicMock
+import json
 
 from django.test import TestCase,Client
 from django.urls import reverse
@@ -91,15 +92,26 @@ class KeeperTest (TestCase):
         pony = check_and_get_pony('wrong name', TESTING_PONY_PASSCODE)
         self.assertIsNone(pony)
 
-    @patch(__package__ +'.utils.urllib.request.urlopen')
+    @patch(__package__ + '.utils.request.urlopen')
     def test_send_http_json_request(self, urlopen_mock: MagicMock):
         url = 'https://jsonurl'
         param_dict = {'k': 'v'}
+
+        response_mock = MagicMock()
+        response_mock.read.return_value = b'{"ret":0}'
+        urlopen_mock.return_value = response_mock
+
         ret = send_json_request(url, param_dict, True)
         call_args = urlopen_mock.call_args
-        self.assertEqual(url, call_args[0])
+        request = call_args.args[0]
+        self.assertEqual(url, request.full_url)
+        self.assertEqual(json.dumps(param_dict).encode('utf-8'), request.data)
+        self.assertEquals(request.headers.get('Content-type'), 'application/json')
+        self.assertDictEqual({"ret": 0}, ret)
 
-        
+        ret = send_json_request(url, param_dict, False)
+        self.assertEqual('{"ret":0}', ret)
+
 
 
 class ClientTest (TestCase):

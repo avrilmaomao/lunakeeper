@@ -12,7 +12,7 @@ def hash_password(password: str) -> str:
 
 def send_json_request(url: str, params: dict, ret_json=True) -> dict:
     post_data = json.dumps(params).encode('utf-8')
-    req = request.Request(url, data=post_data, headers= {'content-type': 'application/json'})
+    req = request.Request(url, data=post_data, headers={'Content-Type': 'application/json'})
     response = request.urlopen(req)
     response_text = response.read().decode('utf-8')
     if ret_json:

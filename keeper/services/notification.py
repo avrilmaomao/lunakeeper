@@ -44,7 +44,7 @@ def send_by_channel(title:str, content: str, channel: str, url: str):
         return False
 
 
-def send_email( title: str, content: str, address: str,) -> bool:
+def send_email(title: str, content: str, address: str,) -> bool:
     try:
         return mail.send_mail(title, content, None, recipient_list=[address]) == 1
     except BaseException as e:
