@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser):
         parser.add_argument('--dry-run', action='store_true',
-                            help= 'just check ponies, without actual changing status or sending notifications')
+                            help='just check ponies, without actual changing status or sending notifications')
 
     def handle(self, *args, **options):
         start_time = now()

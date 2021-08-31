@@ -28,7 +28,7 @@
 
       <p class="lead">How to use Luna</p>
       <p class="font-italic">All parameters of Luna's http requests can be sent via GET or POST</p>
-      <p class="font-italic">Responses are in json format, successful responses are like {"status":1, "data": null} while error responses are like {"status":0, "message": "name cannot be empty"} with a <span class="font-italic">status</span> value <span class="font-italic">0</span>.</p>
+      <p class="font-italic">Responses are in json format, successful responses are like {"code":0, "data": null} while error responses are like {"code":1, "message": "name cannot be empty"} with a <span class="font-italic">code</span> value <span class="font-italic">not equal to 0</span>.</p>
       <ol style="word-wrap:break-word;">
           <li>
               <p><strong>Create A Pony</strong></p>
@@ -54,8 +54,6 @@
                         <td>Certain notification types when Luna has message for you.Currently Luna supports: <br />
                             <ul>
                                 <li>EMAIL:Send an Email. Set notify_url to your e-mail address.</li>
-                                <li>DINGTALK:Send to a DingTalk group as a group robot. Set notify_url to the robot's webhook address.</li>
-                                <li>WORKWECHAT:Send to a WorkWechat group as a group robot. Set notify_url to the robot's webhook address.</li>
                                 <li>SLACK:Send to a Slack channel as a robot.Set notify_url to the robot's webhook address.</li>
                             </ul>
                         </td>

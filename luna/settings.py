@@ -125,15 +125,15 @@ LOGGING = {
 }
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s %(module)s %(process)d %(threadName)s %(thread)d %(message)s')
 
-# settings needed to be overridden in dev or prod
+STATIC_ROOT = str((BASE_DIR / 'static').absolute() )
+
+
 EMAIL_HOST = '127.0.0.1'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'luna@equestria.org'
-
-STATIC_ROOT = str((BASE_DIR / 'static').absolute() )
 
 if not os.environ.get('DJANGO_PRODUCTION'):
     # Quick-start development settings - unsuitable for production

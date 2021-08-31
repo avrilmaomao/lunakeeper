@@ -5,11 +5,18 @@ ALLOWED_HOSTS = [
     '*'
 ]
 
-SECURE_HSTS_SECONDS = 86400
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+#Email settings ,use your own if you need to support Email Notification type
+#EMAIL_HOST = '127.0.0.1'
+#EMAIL_PORT = 25
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_SSL = False
+#DEFAULT_FROM_EMAIL = 'luna@equestria.org'
 
-SECURE_SSL_REDIRECT = True
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+#HTTPS related settings, if you use https in your deployment, you might need these settings
+# SECURE_HSTS_SECONDS = 86400
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_SSL_REDIRECT = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
