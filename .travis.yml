@@ -7,7 +7,7 @@ install:
   - pip install coverage
   - pip install coveralls
 script:
-  - coverage run ---source=keeper,luna --omit=luna/asgi.py,luna/wsgi.py ./manage.py test keeper.tests
+  - coverage run --source=keeper,luna --omit=luna/asgi.py,luna/wsgi.py ./manage.py test keeper.tests
   - coveralls
 
 notifications:
