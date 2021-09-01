@@ -96,21 +96,22 @@ class KeeperTest (TestCase):
     def test_send_http_json_request(self, urlopen_mock: MagicMock):
         url = 'https://jsonurl'
         param_dict = {'k': 'v'}
-
+        response_str = '{"ret":0}'
+        response_dict = json.loads(response_str)
         response_mock = MagicMock()
-        response_mock.read.return_value = b'{"ret":0}'
+        response_mock.read.return_value = response_str.encode('utf-8')
         urlopen_mock.return_value = response_mock
 
         ret = send_json_request(url, param_dict, True)
         call_args = urlopen_mock.call_args
-        request = call_args.args[0]
+        request = call_args[0][0]
         self.assertEqual(url, request.full_url)
         self.assertEqual(json.dumps(param_dict).encode('utf-8'), request.data)
         self.assertEquals(request.headers.get('Content-type'), 'application/json')
-        self.assertDictEqual({"ret": 0}, ret)
+        self.assertDictEqual(response_dict, ret)
 
         ret = send_json_request(url, param_dict, False)
-        self.assertEqual('{"ret":0}', ret)
+        self.assertEqual(response_str, ret)
 
 
 
