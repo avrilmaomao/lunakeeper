@@ -1,6 +1,6 @@
 # Luna: Simple Monitoring For Invisible Devices And Services
 [![Build Status](https://app.travis-ci.com/avrilmaomao/lunakeeper.svg?branch=master)](https://app.travis-ci.com/avrilmaomao/lunakeeper)
-[![Coverage Status](https://coveralls.io/repos/github/avrilmaomao/lunakeeper/badge.svg?branch=master)](https://coveralls.io/github/avrilmaomao/lunakeeper?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/avrilmaomao/lunakeeper/badge.svg?branch=master)](https://coveralls.io/github/avrilmaomao/lunakeeper?branch=master)
 
 **Luna** is a simple monitoring system for *invisible* devices or services, like a RaspberryPi in your home or a scheduled task. It checks whether a monitored item is able to send requests during the required interval.
 
@@ -9,7 +9,7 @@
 ## Luna can be used for
 - checking a RaspberryPi is running with internet connection
 - checking a scheduled task is triggered regularly
-- checking the status of an application not listening ports
+- checking an application not listening ports is up
 
 ## Supported notification types
 When Luna finds a monitored item missing, she will send you a notification. You can specify your notification info when adding or changing a monitored item.
@@ -40,3 +40,6 @@ A Linux crontab example:
 
 ## How to use
 After deployment, navigate to Luna's index page in your browser. The index page will show the necessary steps and detailed api info for you to start monitoring.
+
+## Why Luna is the name
+If you are a fan of My Little Pony, you must have been familiar with Princess Luna. In Equestria, Princess Luna manages the Moon and the night, she protects little ponies from nightmares.She will find ponies who are in a nightmare, go into that dream and help the pony get out of it.
