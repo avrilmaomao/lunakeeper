@@ -1,5 +1,6 @@
 # Luna: Simple Monitoring For Invisible Devices And Services
 [![Build Status](https://app.travis-ci.com/avrilmaomao/lunakeeper.svg?branch=master)](https://app.travis-ci.com/avrilmaomao/lunakeeper)
+[![Coverage Status](https://coveralls.io/repos/github/avrilmaomao/lunakeeper/badge.svg?branch=master)](https://coveralls.io/github/avrilmaomao/lunakeeper?branch=dev)
 
 **Luna** is a simple monitoring system for *invisible* devices or services, like a RaspberryPi in your home or a scheduled task. It checks whether a monitored item is able to send requests during the required interval.
 

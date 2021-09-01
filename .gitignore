@@ -4,3 +4,4 @@ venv/
 luna/settings_dev.py
 luna/settings_prod.py
 __pycache__
+.coverage
