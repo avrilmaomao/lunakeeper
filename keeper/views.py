@@ -169,12 +169,9 @@ def check_and_get_pony(name: str, passcode: str) -> typing.Optional[Pony]:
     passcode = hash_password(passcode)
     try:
         return Pony.objects.get(name=name, passcode=passcode)
-    except Pony.DoesNotExist as e:
+    except Pony.DoesNotExist:
         logging.warning("failed to find pony:%s", name)
         return None
     except BaseException as e:
         logging.error("check pony exception encountered", exc_info=e)
         return None
-
-
-

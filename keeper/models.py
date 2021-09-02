@@ -18,6 +18,7 @@ class Pony(models.Model):
     notify_url = models.CharField(max_length=255)
     create_time = models.DateTimeField()
 
+
 class History(models.Model):
     pony_id = models.IntegerField(db_index= True)
     create_time = models.DateTimeField()

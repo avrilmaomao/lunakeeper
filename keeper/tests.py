@@ -24,7 +24,7 @@ TESTING_PONY_PASSCODE = 'pass001'
 MISSING_PONY_NAME = 'dali02'
 
 
-def add_testing_pony(name = NEW_TESTING_PONY_NAME, last_hi_time = None, status = Pony.STATUS_INIT):
+def add_testing_pony(name=NEW_TESTING_PONY_NAME, last_hi_time=None, status=Pony.STATUS_INIT):
     if get_testing_pony(name) is not None:
         print("Testing pony already added")
         return
@@ -48,8 +48,6 @@ def get_testing_pony(name = NEW_TESTING_PONY_NAME) -> typing.Optional[Pony]:
         return Pony.objects.get(name=name)
     except Pony.DoesNotExist:
         return None
-    except BaseException:
-        raise
 
 
 class KeeperTest (TestCase):
@@ -61,11 +59,28 @@ class KeeperTest (TestCase):
     def setUp(self) -> None:
         pass
 
+    def test_getting_test_pony(self):
+        pony = get_testing_pony(NEW_TESTING_PONY_NAME)
+        self.assertEquals(Pony, type(pony))
+        self.assertEquals(NEW_TESTING_PONY_NAME, pony.name)
+        pony = get_testing_pony("NOT_EXISTED_NAME")
+        self.assertIs(None, pony)
+
+    def test_add_pony(self):
+        add_testing_pony(NEW_TESTING_PONY_NAME)
+        add_testing_pony(NEW_TESTING_PONY_NAME)
+        num = Pony.objects.filter(name=NEW_TESTING_PONY_NAME).count()
+        self.assertEquals(num, 1)
+
     def test_send_email(self):
         ret = notification.send_by_channel('Hello, Title', 'This is a test notification', NOTIFY_CHANNEL_EMAIL, 'luna@equestria.org')
         self.assertTrue(ret)
         self.assertGreaterEqual(len(mail.outbox), 1)
         self.assertEqual('Hello, Title', mail.outbox[-1].subject)
+        with patch(__package__ + '.services.notification.mail.send_mail') as send_mail_mock:
+            send_mail_mock.side_effect = Exception
+            ret = notification.send_by_channel('Failed Title', "This is a failed notifiction", NOTIFY_CHANNEL_EMAIL, "luna")
+            self.assertFalse(ret)
 
     def test_send_unknown(self):
         ret = notification.send_by_channel('Hello, Title', 'This is a test notification', 'unknown', 'unknown url')
@@ -76,11 +91,13 @@ class KeeperTest (TestCase):
         title = 'title'
         content = 'content'
         url = 'https://slackhook'
-        send_json_request_mock.side_effect = ["ok", "failed"]
+        send_json_request_mock.side_effect = ["ok", "failed", Exception]
         ret = notification.send_slack_notification(title, content, url)
         send_json_request_mock.assert_called()
         send_json_request_mock.assert_called_with(url, {'text': title + '\n' + content}, False)
         self.assertTrue(ret)
+        ret = notification.send_slack_notification(title, content, url)
+        self.assertFalse(ret)
         ret = notification.send_slack_notification(title, content, url)
         self.assertFalse(ret)
 
@@ -114,7 +131,6 @@ class KeeperTest (TestCase):
         self.assertEqual(response_str, ret)
 
 
-
 class ClientTest (TestCase):
 
     @classmethod
@@ -130,6 +146,8 @@ class ClientTest (TestCase):
         self.assertContains(response, 'Luna')
 
     def test_add_pony(self):
+
+        # normal add with email
         pony_name = 'dali'
         pony_passcode = 'hello'
         response = self.client.post(reverse('add_pony'),{
@@ -143,13 +161,51 @@ class ClientTest (TestCase):
         response_json = response.json()
         self.assertEquals(response_json['code'], 0, response_json['msg'])
         self.assertIn('id', response_json['data'])
-        pony = Pony.objects.get(name='dali')
+        pony = Pony.objects.get(name=pony_name)
         self.assertEqual(pony_name, pony.name)
         self.assertEqual(pony.passcode, hash_password(pony_passcode))
         self.assertEqual(Pony.STATUS_INIT, pony.status)
         self.assertEqual(5, pony.dark_minute)
         self.assertEqual('EMAIL', pony.notify_channel)
         self.assertEqual('luna@equestria.org', pony.notify_url)
+
+        # normal add with url
+        response = self.client.post(reverse('add_pony'),{
+            'name': pony_name + '_slack',
+            'passcode': pony_passcode,
+            'dark_minute': '5',
+            'notify_channel': NOTIFY_CHANNEL_SLACK,
+            'notify_url': 'https://slackhook.slack.com'
+        })
+        self.assertEqual(200, response.status_code)
+        response_json = response.json()
+        self.assertEquals(response_json['code'], 0, response_json['msg'])
+
+        # add with same name
+        response = self.client.post(reverse('add_pony'),{
+            'name': pony_name,
+            'passcode': pony_passcode,
+            'dark_minute': '5',
+            'notify_channel': 'EMAIL',
+            'notify_url': 'luna@equestria.org'
+        })
+        self.assertEqual(200, response.status_code)
+        response_json = response.json()
+        self.assertEquals(response_json['code'], 1, response_json['msg'])
+
+        # add with wrong email address
+        response = self.client.post(reverse('add_pony'),{
+            'name': pony_name,
+            'passcode': pony_passcode,
+            'dark_minute': '5',
+            'notify_channel': 'EMAIL',
+            'notify_url': 'luna'
+        })
+        self.assertEqual(200, response.status_code)
+        response_json = response.json()
+        self.assertEquals(response_json['code'], 1, response_json['msg'])
+
+
 
     def test_say_hi(self):
         response = self.client.get(reverse('hi_pony'),{
