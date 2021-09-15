@@ -1,5 +1,6 @@
 # Luna: Simple Monitoring For Invisible Devices And Services
 [![Build Status](https://app.travis-ci.com/avrilmaomao/lunakeeper.svg?branch=master)](https://app.travis-ci.com/avrilmaomao/lunakeeper)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/avrilmaomao/lunakeeper/Django%20CI?label=Github%20Actions)
 [![Coverage Status](https://coveralls.io/repos/github/avrilmaomao/lunakeeper/badge.svg?branch=master)](https://coveralls.io/github/avrilmaomao/lunakeeper?branch=master)
 [![Licence](https://img.shields.io/github/license/avrilmaomao/lunakeeper?color=blue)](https://github.com/avrilmaomao/lunakeeper/blob/master/LICENSE)
 
@@ -20,8 +21,9 @@ When Luna finds a monitored item missing, she will send you a notification. You 
 
 ## Requirements
 - the monitored item can send HTTP **GET** requests at a regular interval
-- the monitored item has an internet connection or can reach the Luna server
-
+- the monitored item can reach the Luna server
+- the Luna server has Internet access
+-
 ## Develop and Deploy
 Luna is developed using [Django](https://www.djangoproject.com/), the development and deployment process is just like normal Django apps. However,there are a few things that need to be taken special care of.
 #### 1.Settings for different environments
