@@ -1,4 +1,5 @@
 import datetime
+import logging
 import typing
 from io import StringIO
 from unittest.mock import patch, MagicMock
@@ -16,6 +17,7 @@ from .consts import NOTIFY_CHANNEL_EMAIL,NOTIFY_CHANNEL_SLACK
 from .views import check_and_get_pony
 from .utils import hash_password,send_json_request
 
+logging.root.setLevel(logging.CRITICAL)
 
 # Create your tests here.
 
@@ -79,7 +81,7 @@ class KeeperTest (TestCase):
         self.assertEqual('Hello, Title', mail.outbox[-1].subject)
         with patch(__package__ + '.services.notification.mail.send_mail') as send_mail_mock:
             send_mail_mock.side_effect = Exception
-            ret = notification.send_by_channel('Failed Title', "This is a failed notifiction", NOTIFY_CHANNEL_EMAIL, "luna")
+            ret = notification.send_by_channel('Failed Title', "This is a failed notification", NOTIFY_CHANNEL_EMAIL, "luna")
             self.assertFalse(ret)
 
     def test_send_unknown(self):
@@ -175,7 +177,7 @@ class ClientTest (TestCase):
             'passcode': pony_passcode,
             'dark_minute': '5',
             'notify_channel': NOTIFY_CHANNEL_SLACK,
-            'notify_url': 'https://slackhook.slack.com'
+            'notify_url': 'http://127.0.0.1'
         })
         self.assertEqual(200, response.status_code)
         response_json = response.json()
